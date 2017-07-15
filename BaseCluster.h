@@ -39,7 +39,8 @@ class BaseCluster
   std::int16_t  mSensorID;     // the sensor id
   std::int8_t   mCount=0;      // user field reserved for counting
   std::uint8_t  mBits=0;       // user field reserved for bit flags
-
+  enum masks_t : std::int32_t {kMisalignMask=(0x1<<7), kUserBitsMask=~kMisalignMask};
+  
  public:
   BaseCluster() = default;
 
@@ -54,17 +55,20 @@ class BaseCluster
   T getY()                            const { return mPos.Y(); }
   T getZ()                            const { return mPos.Z(); }
   Point3D<T>  getPos()                const { return mPos; }
-
+  Point3D<T>& getPos()                      { return mPos; }
+  
   // get sensor id
   std::int16_t getSensorID()          const { return mSensorID; }
   // get count field
   std::int8_t getCount()              const { return mCount; }
   // get bit field
   std::uint8_t getBits()              const { return mBits; }
-  bool getBit(int bit)                const { return mBits&(0xff&(0x1<<bit)); }
-
+  bool isBitSet(int bit)              const { return mBits & (0xff & (0x1<<bit)); }
+  // check special reserved bit to flag cluster misalignment
+  bool IsMisaligned()                 const  { return mBits & kMisalignMask;}
+  
   // cast to Point3D
-  operator Point3D<T>&()              const { return mPos; } 
+  operator Point3D<T>()               const { return mPos; } 
   operator Point3D<T>&()                    { return mPos; } 
   
   // modifiers
@@ -75,8 +79,12 @@ class BaseCluster
   void setCount(std::int8_t c)              { mCount = c; }
   // set bit field
   void setBits(std::uint8_t b)              { mBits = b; }
-  void setBit(int bit)                      { mBits |= 0xff&(0x1<<bit); }
+  void setBit(int bit)                      { mBits |= kUserBitsMask & (0x1<<bit); }
+  void resetBit(int bit)                    { mBits &= ~(kUserBitsMask & (0x1<<bit)); }
 
+  // set special reserved bit to flag cluster misalignment
+  void setMisaligned()                      { mBits |= kMisalignMask;}
+  
   // set position
   void setX(T x)                            { mPos.SetX(x); }
   void setY(T y)                            { mPos.SetY(y); }
