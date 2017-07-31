@@ -8,8 +8,8 @@
 // granted to it by virtue of its status as an Intergovernmental Organization
 // or submit itself to any jurisdiction.
 
-#ifndef ALICEO2_BASE_TRANS3D_H_
-#define ALICEO2_BASE_TRANS3D_H_
+#ifndef ALICEO2_BASE__TRANS3D_H_
+#define ALICEO2_BASE__TRANS3D_H_
 
 #include <Math/GenVector/DisplacementVector3D.h>
 #include <Math/GenVector/PositionVector3D.h>
@@ -23,7 +23,7 @@ using Vector3D = ROOT::Math::DisplacementVector3D<ROOT::Math::Cartesian3D<T>, RO
 
 
 namespace o2 {
-namespace Base {
+namespace base {
 
 class Trans3D : public ROOT::Math::Transform3D {
 
@@ -111,7 +111,7 @@ class Trans3D : public ROOT::Math::Transform3D {
   RS: templated version w/o explicit specialization misteriously does not work: 
   GetComponents method called from the templated method fills fm array with shift of 1, 
   while Trans3D::GetComponents(...) returns correct array, i.e.
-  using namespace o2::Base;
+  using namespace o2::base;
   Trans3D tr; // unit matrix
   Point3D<double> p;
   tr(p);
@@ -122,8 +122,8 @@ class Trans3D : public ROOT::Math::Transform3D {
   //-> 1.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00 1.000e+00 0.000e+00 0.000e+00 0.000e+00 0.000e+00 1.000e+00 0.000e+00
 
   Therefore we define explicit specializations
-  */
-
+*/
+/*
   template <>
   Point3D<float> Trans3D::operator() (const Point3D<float> & p) const {
     // Local to master transformation. Once the matrix coefs will be protected, we will use them directly
@@ -206,7 +206,7 @@ class Trans3D : public ROOT::Math::Transform3D {
 			    fm[kXZ] * v.X() + fm[kYZ] * v.Y() + fm[kZZ] * v.Z());
   }
 
-
+*/
   
 }
 }

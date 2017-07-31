@@ -10,9 +10,9 @@
 
 #include "Trans3D.h"
 
-using namespace o2::Base;
+using namespace o2::base;
 
-ClassImp(o2::Base::Trans3D)
+ClassImp(o2::base::Trans3D)
 
 //_________________________________________________
 Trans3D::Trans3D(const TGeoMatrix &m)
